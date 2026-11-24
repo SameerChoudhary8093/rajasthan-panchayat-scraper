@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Rajasthan Sarpanch Candidates Explorer</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <h1>Rajasthan Sarpanch Candidates Explorer</h1>
+      <p class="subtitle">
+        Contesting Sarpanch data, General Election OCT–NOV 2026. Source:
+        <a href="https://sec.rajasthan.gov.in/GramPanchayatDetails.aspx" target="_blank" rel="noopener">Rajasthan State Election Commission</a>
+      </p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section aria-labelledby="kpi-heading">
+      <h2 id="kpi-heading" class="visually-hidden">Dataset totals</h2>
+      <ul class="kpis" id="kpis">
+        <li><span class="kpi-value" data-kpi="districts">–</span><span class="kpi-label">Districts</span></li>
+        <li><span class="kpi-value" data-kpi="panchayat_samitis">–</span><span class="kpi-label">Panchayat Samitis</span></li>
+        <li><span class="kpi-value" data-kpi="gram_panchayats">–</span><span class="kpi-label">Gram Panchayats</span></li>
+        <li><span class="kpi-value" data-kpi="candidates">–</span><span class="kpi-label">Candidates</span></li>
+      </ul>
+    </section>
+
+    <search class="card">
+      <form id="filters" action="/api/records" method="GET">
+        <h2 id="filters-heading">Find candidates</h2>
+        <div class="filter-grid">
+          <div class="field">
+            <label for="district">District</label>
+            <select id="district" name="district_id">
+              <option value="">All districts</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="ps">Panchayat Samiti</label>
+            <select id="ps" name="ps_id" disabled>
+              <option value="">All Panchayat Samitis</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="gp">Gram Panchayat</label>
+            <select id="gp" name="gp" disabled>
+              <option value="">All Gram Panchayats</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="q">Candidate or father/husband name</label>
+            <input type="search" id="q" name="q" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="search">
+          </div>
+        </div>
+        <div class="actions">
+          <button type="submit" class="primary">Show candidates</button>
+          <button type="button" id="download-xlsx">Download Excel</button>
+          <button type="button" id="download-csv">Download CSV</button>
+          <button type="button" id="refresh" disabled aria-describedby="refresh-help">Refresh from SEC portal</button>
+        </div>
+        <p id="refresh-help" class="hint">Choose a Panchayat Samiti to re-fetch its latest data live from the official website.</p>
+      </form>
+    </search>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+
+    <section class="card results" aria-labelledby="results-caption">
+      <div class="results-bar">
+        <p id="result-meta" class="result-meta"></p>
+        <nav class="pager" aria-label="Result pages">
+          <button type="button" id="prev">Previous</button>
+          <span id="page-info"></span>
+          <button type="button" id="next">Next</button>
+        </nav>
+      </div>
+      <div class="table-wrapper" tabindex="0" role="region" aria-labelledby="results-caption">
+        <table>
+          <caption id="results-caption">Contesting Sarpanch candidates</caption>
+          <thead>
+            <tr id="head-row"></tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <p>Data is shown exactly as published by the State Election Commission; blank cells are blank on the source.</p>
+  </footer>
+</body>
+</html>

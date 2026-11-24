@@ -1,0 +1,49 @@
+{
+  "target_url": "https://sec.rajasthan.gov.in/GramPanchayatDetails.aspx",
+  "election_type_value": "1",
+  "election_type_label": "General Election",
+  "election_period_value": "64",
+  "election_period_label": "OCT-NOV 2026",
+  "amber_excel_path": "Sarpanch Result (AMBER) New.xlsx",
+  "skip_panchayat_samitis": [
+    {
+      "district_id": "17",
+      "district_name": "JAIPUR",
+      "ps_id": "123",
+      "ps_name": "AMBER PANCHAYAT SAMITI"
+    }
+  ],
+  "browser": {
+    "headless": true,
+    "navigation_timeout_ms": 45000,
+    "action_timeout_ms": 30000,
+    "postback_timeout_ms": 45000,
+    "block_media_resources": true
+  },
+  "scraping": {
+    "min_delay_seconds": 1.5,
+    "max_delay_seconds": 2.5,
+    "district_delay_seconds": 1.0,
+    "max_retries": 3,
+    "retry_backoff_seconds": [3, 8, 18],
+    "reset_page_every_n_ps": 5,
+    "verify_export_parity_sample": true
+  },
+  "paths": {
+    "output_dir": "output",
+    "ps_data_dir": "output/ps_data",
+    "logs_dir": "output/logs",
+    "catalog_file": "output/catalog.json",
+    "progress_json": "output/progress.json",
+    "progress_csv": "output/progress.csv",
+    "combined_excel": "output/Rajasthan_Sarpanch_Contesting_Candidates_Combined.xlsx",
+    "error_report_csv": "output/error_and_missing_report.csv",
+    "error_report_md": "output/error_and_missing_report.md",
+    "summary_report_md": "output/summary_report.md"
+  },
+  "excel": {
+    "use_cleaned_amber_headers": true,
+    "include_district_and_ps_columns": true,
+    "keep_amber_untouched": true
+  }
+}
