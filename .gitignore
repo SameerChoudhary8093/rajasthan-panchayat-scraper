@@ -1,6 +1,7 @@
 # Scraped data & logs contain personal details of candidates (mobile numbers, e-mails, assets).
 # Keep them out of public repositories.
 output/
+output_backup*/
 *.xlsx
 *.xls
 *.csv

@@ -5,14 +5,7 @@
   "election_period_value": "64",
   "election_period_label": "OCT-NOV 2026",
   "amber_excel_path": "Sarpanch Result (AMBER) New.xlsx",
-  "skip_panchayat_samitis": [
-    {
-      "district_id": "17",
-      "district_name": "JAIPUR",
-      "ps_id": "123",
-      "ps_name": "AMBER PANCHAYAT SAMITI"
-    }
-  ],
+  "skip_panchayat_samitis": [],
   "browser": {
     "headless": true,
     "navigation_timeout_ms": 45000,

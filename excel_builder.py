@@ -247,17 +247,21 @@ def build_all_outputs(config: Dict[str, Any], base_dir: Path, logger: logging.Lo
         skip_list=config.get("skip_panchayat_samitis", []),
     )
 
-    amber_path = base_dir / config["amber_excel_path"]
-    if not amber_path.exists():
-        raise FileNotFoundError(f"AMBER reference Excel not found at: {amber_path}")
-
-    amber_skip_cfg = (config.get("skip_panchayat_samitis") or [{}])[0]
-    amber_district = amber_skip_cfg.get("district_name", "JAIPUR")
-    amber_ps = amber_skip_cfg.get("ps_name", "AMBER PANCHAYAT SAMITI")
-
-    logger.info("Loading original AMBER workbook untouched: %s", amber_path)
-    amber_records, audit_issues = load_amber_excel_untouched(amber_path, amber_district, amber_ps)
-    logger.info("Loaded %d records from AMBER Excel.", len(amber_records))
+    skip_list = config.get("skip_panchayat_samitis") or []
+    amber_records: List[Dict[str, Any]] = []
+    audit_issues: List[Dict[str, Any]] = []
+    if skip_list:
+        # Only when AMBER is configured to be skipped do we merge the user's original AMBER Excel
+        amber_path = base_dir / config["amber_excel_path"]
+        if not amber_path.exists():
+            raise FileNotFoundError(f"AMBER reference Excel not found at: {amber_path}")
+        amber_district = skip_list[0].get("district_name", "JAIPUR")
+        amber_ps = skip_list[0].get("ps_name", "AMBER PANCHAYAT SAMITI")
+        logger.info("Loading original AMBER workbook untouched: %s", amber_path)
+        amber_records, audit_issues = load_amber_excel_untouched(amber_path, amber_district, amber_ps)
+        logger.info("Loaded %d records from AMBER Excel.", len(amber_records))
+    else:
+        logger.info("No Panchayat Samitis are skipped: every PS (including AMBER) comes from the SEC portal.")
 
     # Build combined dataset in clean District -> Panchayat Samiti -> original Sr. No. order
     all_items = tracker.get_all_items()
